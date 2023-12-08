@@ -1,4 +1,4 @@
-use jeebs::result::*;
+use jeebs::{result::*, error::AsError};
 use std::env;
 use thiserror::Error;
 
@@ -16,9 +16,8 @@ fn get_share() -> Result<u64> {
         .map_err(|_| Errors::UnableToParseFirstArgument)?;
     let crew_size = args
         .get(1)
-        .ok_or(Errors::UnableToGetSecondArgument)?
-        .parse::<usize>()
-        .map_err(|_| Errors::UnableToParseSecondArgument)?;
+        .ok_or("Something hasn't worked here".as_error())?
+        .parse::<usize>()?;
     Ok(pirate_share(total, crew_size))
 }
 
@@ -32,11 +31,7 @@ enum Errors {
     #[error("Unable to get first argument")]
     UnableToGetFirstArgument,
     #[error("The first argument is not a valid number")]
-    UnableToParseFirstArgument,
-    #[error("Unable to get second argument")]
-    UnableToGetSecondArgument,
-    #[error("The second argument is not a valid number")]
-    UnableToParseSecondArgument
+    UnableToParseFirstArgument
 }
 
 #[test]
