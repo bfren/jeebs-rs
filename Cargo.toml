@@ -1,11 +1,11 @@
 [package]
-name = "Jeebs"
+name = "jeebs"
 description = "Toolkit for Rapid Application Development"
 homepage = "http://github.com/bfren/jeebs-rs"
 documentation = "http://github.com/bfren/jeebs-rs"
 repository = "http://github.com/bfren/jeebs-rs"
 readme = "README.md"
-version = "0.1.0"
+version = "0.1.0-beta.23120801"
 edition = "2021"
 license = "MIT"
 
