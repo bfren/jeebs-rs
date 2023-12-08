@@ -1,14 +1,20 @@
-use std::{any::type_name, fmt::{self, Display}};
+use std::{
+    any::type_name,
+    fmt::{self, Display},
+};
 
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 pub struct Error {
-    value: Box<dyn std::error::Error + Send + Sync + 'static>,
-    kind: String,
+    pub value: String,
+    pub kind: Option<&'static str>,
 }
 
 impl Display for Error {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        writeln!(f, "{} [{}]", self.value, self.kind)
+        match self.kind {
+            Some(k) => write!(f, "{} [{}]", self.value, k),
+            None => write!(f, "{}", self.value)
+        }
     }
 }
 
@@ -18,8 +24,24 @@ where
 {
     fn from(value: E) -> Self {
         Error {
-            value: Box::new(value),
-            kind: type_name::<E>().to_string(),
+            value: value.to_string(),
+            kind: Some(type_name::<E>()),
+        }
+    }
+}
+
+pub trait AsError {
+    fn as_error(self) -> Error;
+}
+
+impl<T> AsError for T
+where
+    T: ToString
+{
+    fn as_error(self) -> Error {
+        Error {
+            value: self.to_string(),
+            kind: None
         }
     }
 }
