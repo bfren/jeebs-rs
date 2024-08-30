@@ -1,5 +1,5 @@
 [package]
-name = "jeebs"
+name = "jbs"
 description = "Toolkit for Rapid Application Development"
 homepage = "http://github.com/bfren/jeebs-rs"
 documentation = "http://github.com/bfren/jeebs-rs"
